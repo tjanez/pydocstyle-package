@@ -2,8 +2,8 @@
 %global sum Python docstring style checker
 
 Name: python-%{srcname}
-Version: 1.1.1
-Release: 0%{?dist}.2
+Version: 2.0.0
+Release: 0%{?dist}.1
 Summary: %{sum}
 
 License: MIT
@@ -29,11 +29,16 @@ Summary: %{sum}
 
 BuildRequires: python2-devel
 # Required for running tests
+BuildRequires: python2-six
+BuildRequires: python2-snowballstemmer
 BuildRequires: python2-pytest
 BuildRequires: python-pytest-pep8
 BuildRequires: python2-mock
 # NOTE: pathlib is not in BuildRequires since it is only needed by Integration
 # tests which are ignored on Python 2 due to reasons described below.
+
+Requires: python2-six
+Requires: python2-snowballstemmer
 
 %description -n python2-%{srcname}
 A static analysis tool for checking compliance with Python docstring
@@ -52,11 +57,16 @@ Summary: %{sum}
 
 BuildRequires: python3-devel
 # Required for running tests
+BuildRequires: python3-six
+BuildRequires: python3-snowballstemmer
 BuildRequires: python3-pytest
 BuildRequires: python3-pytest-pep8
 BuildRequires: python3-mock
 # NOTE: pathlib is not in BuildRequires since it is part of the Python standard
 # library in Python 3.4+.
+
+Requires: python3-six
+Requires: python3-snowballstemmer
 
 %description -n python3-%{srcname}
 A static analysis tool for checking compliance with Python docstring
@@ -90,8 +100,8 @@ sed -i '\|/usr/bin/env|d' build/lib/pydocstyle/__main__.py
 # Run tests under Python 2
 
 # NOTE: Integration tests are ignored on Python 2 since they require having the
-# 'pydocstyle' and 'pep257' executables installed on the system. As described
-# below, we only package Python 3 versions of these executables.
+# 'pydocstyle' executable installed on the system. As described below, we only
+# package Python 3 version of this executable.
 # NOTE: We need to specify the PYTHONPATH environment variable so that Python
 # can find the system-installed pydocstyle package in %%{buildroot}.
 PYTHONPATH="%{buildroot}%{python2_sitelib}" py.test \
@@ -138,12 +148,14 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" PATH="$PATH:%{buildroot}%{_bindir}" 
 %doc README.rst
 %{python3_sitelib}/*
 %{_bindir}/pydocstyle
-# NOTE: pep257 is provided for compatibility reasons since pydocstyle was
-# named pep257 before Jan 29 2016
-%{_bindir}/pep257
 
 
 %changelog
+* Mon May 08 2017 Tadej Janež <tadej.j@nez.si> 2.0.0-0.1
+- Update to 2.0.0 release.
+- Update Requires and BuildRequires for the new version.
+- Drop pep257 compatibility console script.
+
 * Fri Apr 07 2017 Tadej Janež <tadej.j@nez.si> 1.1.1-0.2
 - Temporarily use GitHub arhive download service until upstream includes tests
   in the release tarballs.
