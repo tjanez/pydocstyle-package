@@ -3,7 +3,7 @@
 
 Name: python-%{srcname}
 Version: 2.0.0
-Release: 0%{?dist}.1
+Release: 1%{?dist}
 Summary: %{sum}
 
 License: MIT
@@ -151,6 +151,9 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}" PATH="$PATH:%{buildroot}%{_bindir}" 
 
 
 %changelog
+* Fri Jun 30 2017 Tadej Janež <tadej.j@nez.si> 2.0.0-1
+- Initial release in Fedora 25+.
+
 * Mon May 08 2017 Tadej Janež <tadej.j@nez.si> 2.0.0-0.1
 - Update to 2.0.0 release.
 - Update Requires and BuildRequires for the new version.
